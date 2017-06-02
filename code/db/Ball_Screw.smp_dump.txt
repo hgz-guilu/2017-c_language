@@ -1,0 +1,30 @@
+
+State Machine - |Ball_Screw|Signal_Filter_Top:U1|Signal_Filter:U4|Delay_Filter:U1|state
+Name state.00 state.10 state.01 
+state.00 0 0 0 
+state.01 1 0 1 
+state.10 1 1 0 
+
+State Machine - |Ball_Screw|Signal_Filter_Top:U1|Signal_Filter:U3|Delay_Filter:U1|state
+Name state.00 state.10 state.01 
+state.00 0 0 0 
+state.01 1 0 1 
+state.10 1 1 0 
+
+State Machine - |Ball_Screw|Signal_Filter_Top:U1|Signal_Filter:U2|Delay_Filter:U1|state
+Name state.00 state.10 state.01 
+state.00 0 0 0 
+state.01 1 0 1 
+state.10 1 1 0 
+
+State Machine - |Ball_Screw|Signal_Filter_Top:U1|Signal_Filter:U1|Delay_Filter:U1|state
+Name state.00 state.10 state.01 
+state.00 0 0 0 
+state.01 1 0 1 
+state.10 1 1 0 
+
+State Machine - |Ball_Screw|Signal_Filter_Top:U1|Signal_Filter:U0|Delay_Filter:U1|state
+Name state.00 state.10 state.01 
+state.00 0 0 0 
+state.01 1 0 1 
+state.10 1 1 0 

@@ -1,0 +1,8 @@
+# Reading C:/altera/11.0/modelsim_ase/tcl/vsim/pref.tcl 
+# OpenFile H:/Ball_screw_measurement/Test/FPGA/Ball_Screw/Measure/measure.mpf 
+# Loading project measure
+vsim -gui work.Measure
+# vsim -gui work.Measure 
+# Loading work.Measure
+add wave sim:/Measure/*
+run

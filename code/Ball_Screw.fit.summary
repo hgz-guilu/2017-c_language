@@ -1,0 +1,16 @@
+Fitter Status : Successful - Sun Jan 03 15:36:26 2016
+Quartus II Version : 11.0 Build 208 07/03/2011 SP 1 SJ Full Version
+Revision Name : Ball_Screw
+Top-level Entity Name : Ball_Screw
+Family : Cyclone IV E
+Device : EP4CE6F17C8
+Timing Models : Final
+Total logic elements : 2,319 / 6,272 ( 37 % )
+    Total combinational functions : 2,196 / 6,272 ( 35 % )
+    Dedicated logic registers : 848 / 6,272 ( 14 % )
+Total registers : 848
+Total pins : 13 / 180 ( 7 % )
+Total virtual pins : 0
+Total memory bits : 0 / 276,480 ( 0 % )
+Embedded Multiplier 9-bit elements : 0 / 30 ( 0 % )
+Total PLLs : 0 / 2 ( 0 % )

@@ -1,0 +1,44 @@
+module Count(
+input Sys_Clk,
+input Sys_Reset,
+output [3:0]num,
+output signal
+);
+
+parameter T_1S=26'd25_000_000;
+reg [25:0]count_time;
+reg signal_s;
+always @(posedge Sys_Clk or negedge Sys_Reset)
+begin
+	if(!Sys_Reset)
+	begin
+		count_time<=26'd0;
+		signal_s<=1'd0;
+	end
+	else if(count_time==T_1S)
+	begin
+		count_time<=26'd0;
+		signal_s<=~signal_s;
+	end
+	else
+	begin
+		count_time<=count_time+26'd1;
+	end
+end
+reg [3:0]reg_num;
+always@(posedge signal_s or negedge Sys_Reset)
+begin
+	if(!Sys_Reset)
+	begin
+		reg_num=4'd0;
+	end
+	else if(reg_num==9)
+		reg_num=4'd0;
+	else
+	begin
+		reg_num=reg_num+5'd1;
+	end
+end
+assign num=reg_num;
+assign signal=signal_s;
+endmodule

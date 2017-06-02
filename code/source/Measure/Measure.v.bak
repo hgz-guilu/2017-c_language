@@ -1,0 +1,160 @@
+module Measure(CLOCK_50M,RST_n,iRESR_signalA,iRESR_signalZ,iRGS_signalA,Signal_Corotation,
+					RESR_Count_H,RESR_Count_L,RGS_Count_H,RGS_Count_L
+				Frame_Start_Sig,Data_Send_Sig,Data
+				);
+
+
+input CLOCK_50M;
+input RST_n;
+input iRESR_signalA;    //圆光栅脉冲信号，高电平为一个系统时钟脉冲信号
+input iRESR_signalZ;          //一个系统时钟脉冲的圆光栅0位信号
+input iRGS_signalA;		//光栅尺信号，高电平为一个系统时钟脉冲信号
+input Signal_Corotation;  //电机正反转信号，信号为1，电机正转，信号为0，电机反转
+output [31:0]RESR_Count_H;
+output [31:0]RESR_Count_L;
+output [31:0]RGS_Count_H;
+output [31:0]RGS_Count_L;
+ output Frame_Start_Sig;//一个时钟的高电平脉冲，代表一帧数据开始到来
+ output Data_Send_Sig;//一个脉冲信号，表示一个8位数据到来
+ output [7:0]Data;//定义一个8x8的数据缓冲区，用来暂存圆光栅和光栅尺的脉冲计数 个数	
+/***************************************************************************/
+
+/******************************************************************************/
+  //疑问：如果直接用信号A和信号B作为触发信号，是不是有不稳定的情况，还是用系统时钟作为触发信号好
+  //必须用信号A，B作为触发信号，不然有些毛刺的边沿会被系统时钟给过滤掉，使检测脉冲信号个数不准确
+/***************************************************************************
+-----------------------------------------------------------
+iSignal_A | 
+---------------------------------------------------------------
+iSignal_B |
+--------------------------------------------------------------
+*******************************************************************************/
+reg is_start;
+always@(posedge CLOCK_50M or negedge RST_n)
+	if(!RST_n)
+	begin
+		is_start<=1'b0;
+	end
+	else if(iRESR_signalZ)
+		is_start<=1'b0;
+	else
+		is_start<=1'b1;
+/**********************************************************/
+reg [31:0]count0_H;
+reg [31:0]count0_L;
+always@(posedge CLOCK_50M or negedge RST_n)
+  if(!RST_n)
+  begin
+    count0_L<=32'd0;
+	 count0_H<=32'd0;
+  end
+  else if(!is_start)
+  begin
+    count0_L<=32'd0;
+	 count0_H<=32'd0;
+  end
+  else if(iRESR_signalA==1'b0)
+  begin
+    count0_L<=count0_L+32'd1;
+  end
+/*----------------------------------------------------*/
+reg [31:0]count1_H;
+reg [31:0]count1_L;
+always@(posedge CLOCK_50M or negedge RST_n)
+  if(!RST_n)
+  begin
+    count1_L<=32'd0;
+	 count1_H<=32'd0;
+  end
+  else if(!is_start)
+  begin
+    count1_L<=32'd0;
+	 count1_H<=32'd0;
+  end
+  else if(iRGS_signalA==1'b0)
+  begin
+    count1_L<=count1_L+32'd1;
+  end
+/*----------------------------------------------------
+保存当前测量值到寄存器中，等待传输
+------------------------------------------------------*/
+reg [31:0]RESR_PluseCount_H;
+reg [31:0]RESR_PluseCount_L;
+reg [31:0]RGS_PluseCount_H;
+reg [31:0]RGS_PluseCount_L;
+reg rFrame_Start_Sig;
+reg [31:0]rRESR_Count_L;
+assign RESR_Count_L=rRESR_Count_L;
+always@(posedge CLOCK_50M or negedge RST_n)
+	if(!RST_n)
+	begin
+		rFrame_Start_Sig<=1'b0;		
+		RESR_PluseCount_H<=32'd0;
+		RESR_PluseCount_L<=32'd0;
+		RGS_PluseCount_H<=32'd0;
+		RGS_PluseCount_L<=32'd0;
+	end
+	else if(!is_start)
+	begin
+		rFrame_Start_Sig<=1'b1;
+		RESR_PluseCount_H<=count0_H;
+		RESR_PluseCount_L<=count0_L;
+		RGS_PluseCount_H<=count1_H;
+		RGS_PluseCount_L<=count1_L;
+		rRESR_Count_L<=count0_L;
+	end
+	else
+	begin
+		rFrame_Start_Sig<=1'b0;
+	end
+/*****************************************************************
+把测量数据发送到下一模块，进行数据发送
+*****************************************************************/
+reg [7:0]rData;
+reg rData_Send_Sig;
+reg [7:0]num;
+reg start_send;
+always@(posedge CLOCK_50M or negedge RST_n)
+		if(!RST_n)
+		begin
+			start_send<=1'b0;
+			rData_Send_Sig<=1'b0;
+			num<=8'd0;
+		end
+		else if(rFrame_Start_Sig)
+		begin
+			start_send<=1'b1;
+			rData_Send_Sig<=1'b0;
+			num<=8'd0;
+		end
+		else if(start_send)
+		begin
+			case(num)
+			8'd0:begin rData<=RESR_PluseCount_H[31:24];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			8'd2:begin rData<=RESR_PluseCount_H[23:16];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			8'd4:begin rData<=RESR_PluseCount_H[15:8];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			8'd6:begin rData<=RESR_PluseCount_H[7:0];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			8'd8:begin rData<=RESR_PluseCount_L[31:24];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			8'd10:begin rData<=RESR_PluseCount_L[23:16];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			8'd12:begin rData<=RESR_PluseCount_L[15:8];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			8'd14:begin rData<=RESR_PluseCount_L[7:0];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			8'd16:begin rData<=RGS_PluseCount_H[31:24];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			8'd18:begin rData<=RGS_PluseCount_H[23:16];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			8'd20:begin rData<=RGS_PluseCount_H[15:8];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			8'd22:begin rData<=RGS_PluseCount_H[7:0];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			8'd24:begin rData<=RGS_PluseCount_L[31:24];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			8'd26:begin rData<=RGS_PluseCount_L[23:16];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			8'd28:begin rData<=RGS_PluseCount_L[15:8];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			8'd30:begin rData<=RGS_PluseCount_L[7:0];num<=num+8'd1;rData_Send_Sig<=1'b1;end
+			default:
+				if(num<8'd30)
+				begin num<=num+8'd1;rData_Send_Sig<=1'b0;end
+			   else if(num==8'd31)
+				begin start_send<=1'b0;end
+			endcase
+		end
+
+	assign Data=rData;
+	assign Data_Send_Sig=rData_Send_Sig;
+	assign Frame_Start_Sig=rFrame_Start_Sig;
+endmodule

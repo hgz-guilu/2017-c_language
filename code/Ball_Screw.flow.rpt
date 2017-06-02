@@ -1,0 +1,120 @@
+Flow report for Ball_Screw
+Sun Jan 03 15:36:33 2016
+Quartus II Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Flow Summary
+  3. Flow Settings
+  4. Flow Non-Default Global Settings
+  5. Flow Elapsed Time
+  6. Flow OS Summary
+  7. Flow Log
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2011 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++-------------------------------------------------------------------------------------+
+; Flow Summary                                                                        ;
++------------------------------------+------------------------------------------------+
+; Flow Status                        ; Successful - Sun Jan 03 15:36:30 2016          ;
+; Quartus II Version                 ; 11.0 Build 208 07/03/2011 SP 1 SJ Full Version ;
+; Revision Name                      ; Ball_Screw                                     ;
+; Top-level Entity Name              ; Ball_Screw                                     ;
+; Family                             ; Cyclone IV E                                   ;
+; Device                             ; EP4CE6F17C8                                    ;
+; Timing Models                      ; Final                                          ;
+; Total logic elements               ; 2,319 / 6,272 ( 37 % )                         ;
+;     Total combinational functions  ; 2,196 / 6,272 ( 35 % )                         ;
+;     Dedicated logic registers      ; 848 / 6,272 ( 14 % )                           ;
+; Total registers                    ; 848                                            ;
+; Total pins                         ; 13 / 180 ( 7 % )                               ;
+; Total virtual pins                 ; 0                                              ;
+; Total memory bits                  ; 0 / 276,480 ( 0 % )                            ;
+; Embedded Multiplier 9-bit elements ; 0 / 30 ( 0 % )                                 ;
+; Total PLLs                         ; 0 / 2 ( 0 % )                                  ;
++------------------------------------+------------------------------------------------+
+
+
++-----------------------------------------+
+; Flow Settings                           ;
++-------------------+---------------------+
+; Option            ; Setting             ;
++-------------------+---------------------+
+; Start date & time ; 01/03/2016 15:36:07 ;
+; Main task         ; Compilation         ;
+; Revision Name     ; Ball_Screw          ;
++-------------------+---------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                                               ;
++-------------------------------------+---------------------------------------------------------------+---------------+-------------+------------+
+; Assignment Name                     ; Value                                                         ; Default Value ; Entity Name ; Section Id ;
++-------------------------------------+---------------------------------------------------------------+---------------+-------------+------------+
+; COMPILER_SIGNATURE_ID               ; 220576042505507.145180656705680                               ; --            ; --          ; --         ;
+; MISC_FILE                           ; H:/Ball_screw_measurement/Test/FPGA/Ball_Screw/Ball_Screw.dpf ; --            ; --          ; --         ;
+; PARTITION_COLOR                     ; 16764057                                                      ; --            ; --          ; Top        ;
+; PARTITION_FITTER_PRESERVATION_LEVEL ; PLACEMENT_AND_ROUTING                                         ; --            ; --          ; Top        ;
+; PARTITION_NETLIST_TYPE              ; SOURCE                                                        ; --            ; --          ; Top        ;
+; VERILOG_MACRO                       ; RESR_COUNT=1296                                               ; --            ; --          ; --         ;
+; VERILOG_SHOW_LMF_MAPPING_MESSAGES   ; Off                                                           ; --            ; --          ; --         ;
++-------------------------------------+---------------------------------------------------------------+---------------+-------------+------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------+
+; Flow Elapsed Time                                                                                                             ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Analysis & Synthesis      ; 00:00:10     ; 1.0                     ; 313 MB              ; 00:00:09                           ;
+; Fitter                    ; 00:00:07     ; 1.2                     ; 368 MB              ; 00:00:08                           ;
+; Assembler                 ; 00:00:02     ; 1.0                     ; 248 MB              ; 00:00:01                           ;
+; TimeQuest Timing Analyzer ; 00:00:05     ; 1.0                     ; 288 MB              ; 00:00:06                           ;
+; Total                     ; 00:00:24     ; --                      ; --                  ; 00:00:24                           ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+
+
++----------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                        ;
++---------------------------+------------------+-----------+------------+----------------+
+; Module Name               ; Machine Hostname ; OS Name   ; OS Version ; Processor type ;
++---------------------------+------------------+-----------+------------+----------------+
+; Analysis & Synthesis      ; USER-20150622XM  ; Windows 7 ; 6.1        ; i686           ;
+; Fitter                    ; USER-20150622XM  ; Windows 7 ; 6.1        ; i686           ;
+; Assembler                 ; USER-20150622XM  ; Windows 7 ; 6.1        ; i686           ;
+; TimeQuest Timing Analyzer ; USER-20150622XM  ; Windows 7 ; 6.1        ; i686           ;
++---------------------------+------------------+-----------+------------+----------------+
+
+
+------------
+; Flow Log ;
+------------
+quartus_map --read_settings_files=on --write_settings_files=off Ball_Screw -c Ball_Screw
+quartus_fit --read_settings_files=off --write_settings_files=off Ball_Screw -c Ball_Screw
+quartus_asm --read_settings_files=off --write_settings_files=off Ball_Screw -c Ball_Screw
+quartus_sta Ball_Screw -c Ball_Screw
+
+
+

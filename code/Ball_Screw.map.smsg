@@ -1,0 +1,2 @@
+Warning (10268): Verilog HDL information at FrequencyGenerator.v(56): always construct contains both blocking and non-blocking assignments
+Warning (10268): Verilog HDL information at Tx_Buffered.v(83): always construct contains both blocking and non-blocking assignments

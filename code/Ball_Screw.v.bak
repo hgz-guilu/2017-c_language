@@ -1,0 +1,25 @@
+module Ball_Screw(CLOCK_50M,RST_n,USART_TX,USART_RX);
+
+input CLOCK_50M;
+input RST_n;
+input USART_RX;
+output USART_TX;
+
+/***************************************************************/
+wire RESR_signalA;
+wire RESR_signalB;
+wire RESR_signalZ;
+wire RGS_signalA;
+wire RGS_signalB;
+	Siganl_Source U0
+	(
+		.CLOCK_50M(CLOCK_50M),
+		.RST_n(RST_n),
+		.RESR_signalA(RESR_signalA),
+		.RESR_signalB(RESR_signalB),
+		.RESR_signalZ(RESR_signalZ),
+		.RGS_signalA(RGS_signalA),
+		.RGS_signalB(RGS_signalB)
+	);
+
+endmodule

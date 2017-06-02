@@ -1,0 +1,9 @@
+module Signal_Filter(iSigal,CLK,RST_n,oSignal);
+
+input iSignal;
+input CLK;
+input RST_n;
+output oSignal;
+
+
+endmodule
